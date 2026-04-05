@@ -79,7 +79,7 @@ export function ProjectsGrid() {
               style={{ transitionDelay: `${0.1 + index * 0.1}s` }}
             >
               <Link
-                href={`/room/${project.slug}`}
+                href={`/category/${project.id}`}
                 className="group block relative overflow-hidden rounded-lg aspect-[4/3] bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 {/* Placeholder or Image */}

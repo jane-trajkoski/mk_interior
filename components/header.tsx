@@ -24,15 +24,17 @@ export function Header() {
     setTheme(theme === "dark" ? "light" : "dark")
   }
 
-  // When not scrolled, header is over the hero (dark bg), so text should be light (cream)
+  // When not scrolled, header is over the hero — light overlay in light mode, dark overlay in dark mode
   // When scrolled, header has its own background, so use theme colors
-  const textColorClass = isScrolled ? "text-foreground" : "text-cream"
-  const mutedTextColorClass = isScrolled ? "text-muted-foreground" : "text-cream/80"
+  const textColorClass = isScrolled ? "text-foreground" : "text-charcoal dark:text-cream"
+  const mutedTextColorClass = isScrolled ? "text-muted-foreground" : "text-charcoal/70 dark:text-cream/80"
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? "bg-background/95 backdrop-blur-md shadow-sm" : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${
+        isScrolled
+          ? "bg-background/95 backdrop-blur-md shadow-sm border-warm-brown/15 dark:border-cream/10"
+          : "bg-transparent border-charcoal/10 dark:border-cream/10"
       }`}
     >
       <nav className="mx-auto max-w-7xl px-6 lg:px-12">
@@ -46,7 +48,7 @@ export function Header() {
                 viewBox="0 0 40 48"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className={isScrolled ? "text-gold" : "text-gold"}
+                className="text-gold"
                 aria-hidden="true"
               >
                 {/* M shape */}
@@ -118,19 +120,19 @@ export function Header() {
               <button
                 onClick={toggleTheme}
                 className={`relative w-14 h-7 rounded-full p-1 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
-                  isScrolled ? "bg-muted hover:bg-muted/80" : "bg-cream/20 hover:bg-cream/30"
+                  isScrolled ? "bg-muted hover:bg-muted/80" : "bg-charcoal/15 hover:bg-charcoal/25 dark:bg-cream/20 dark:hover:bg-cream/30"
                 }`}
                 aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
               >
                 <div
                   className={`absolute top-1 w-5 h-5 rounded-full shadow-md transition-transform duration-300 flex items-center justify-center ${
                     theme === "dark" ? "translate-x-7" : "translate-x-0"
-                  } ${isScrolled ? "bg-background" : "bg-cream"}`}
+                  } ${isScrolled ? "bg-background" : "bg-charcoal dark:bg-cream"}`}
                 >
                   {theme === "dark" ? (
-                    <Moon className={`w-3 h-3 ${isScrolled ? "text-foreground" : "text-charcoal"}`} />
+                    <Moon className={`w-3 h-3 ${isScrolled ? "text-foreground" : "text-cream dark:text-charcoal"}`} />
                   ) : (
-                    <Sun className={`w-3 h-3 ${isScrolled ? "text-foreground" : "text-charcoal"}`} />
+                    <Sun className={`w-3 h-3 ${isScrolled ? "text-foreground" : "text-cream dark:text-charcoal"}`} />
                   )}
                 </div>
               </button>
@@ -142,7 +144,7 @@ export function Header() {
               className={`hidden md:inline-flex px-5 py-2.5 text-sm tracking-wide rounded-md transition-all duration-300 hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                 isScrolled
                   ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                  : "bg-cream text-charcoal hover:bg-cream/90"
+                  : "bg-charcoal text-cream hover:bg-charcoal/90 dark:bg-cream dark:text-charcoal dark:hover:bg-cream/90"
               }`}
             >
               Get in Touch
@@ -158,15 +160,15 @@ export function Header() {
               <span
                 className={`block w-6 h-0.5 transition-all duration-300 ${
                   isMenuOpen ? "rotate-45 translate-y-2" : ""
-                } ${isScrolled ? "bg-foreground" : "bg-cream"}`}
+                } ${isScrolled ? "bg-foreground" : "bg-charcoal dark:bg-cream"}`}
               />
               <span
-                className={`block w-6 h-0.5 transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""} ${isScrolled ? "bg-foreground" : "bg-cream"}`}
+                className={`block w-6 h-0.5 transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""} ${isScrolled ? "bg-foreground" : "bg-charcoal dark:bg-cream"}`}
               />
               <span
                 className={`block w-6 h-0.5 transition-all duration-300 ${
                   isMenuOpen ? "-rotate-45 -translate-y-2" : ""
-                } ${isScrolled ? "bg-foreground" : "bg-cream"}`}
+                } ${isScrolled ? "bg-foreground" : "bg-charcoal dark:bg-cream"}`}
               />
             </button>
           </div>
@@ -176,41 +178,41 @@ export function Header() {
         <div
           className={`md:hidden overflow-hidden transition-all duration-500 ease-out ${
             isMenuOpen ? "max-h-96 pb-8" : "max-h-0"
-          } ${!isScrolled && isMenuOpen ? "bg-charcoal/95 backdrop-blur-md -mx-6 px-6 rounded-b-lg" : ""}`}
+          } ${!isScrolled && isMenuOpen ? "bg-cream/95 dark:bg-charcoal/95 backdrop-blur-md -mx-6 px-6 rounded-b-lg" : ""}`}
         >
           <div className="flex flex-col gap-6 pt-4">
             <Link
               href="#projects"
               onClick={() => setIsMenuOpen(false)}
-              className={`text-lg transition-colors ${isScrolled ? "text-foreground hover:text-primary" : "text-cream hover:text-cream/70"}`}
+              className={`text-lg transition-colors ${isScrolled ? "text-foreground hover:text-primary" : "text-charcoal hover:text-charcoal/70 dark:text-cream dark:hover:text-cream/70"}`}
             >
               Projects
             </Link>
             <Link
               href="#services"
               onClick={() => setIsMenuOpen(false)}
-              className={`text-lg transition-colors ${isScrolled ? "text-foreground hover:text-primary" : "text-cream hover:text-cream/70"}`}
+              className={`text-lg transition-colors ${isScrolled ? "text-foreground hover:text-primary" : "text-charcoal hover:text-charcoal/70 dark:text-cream dark:hover:text-cream/70"}`}
             >
               Services
             </Link>
             <Link
               href="#process"
               onClick={() => setIsMenuOpen(false)}
-              className={`text-lg transition-colors ${isScrolled ? "text-foreground hover:text-primary" : "text-cream hover:text-cream/70"}`}
+              className={`text-lg transition-colors ${isScrolled ? "text-foreground hover:text-primary" : "text-charcoal hover:text-charcoal/70 dark:text-cream dark:hover:text-cream/70"}`}
             >
               Process
             </Link>
             <Link
               href="/about"
               onClick={() => setIsMenuOpen(false)}
-              className={`text-lg transition-colors ${isScrolled ? "text-foreground hover:text-primary" : "text-cream hover:text-cream/70"}`}
+              className={`text-lg transition-colors ${isScrolled ? "text-foreground hover:text-primary" : "text-charcoal hover:text-charcoal/70 dark:text-cream dark:hover:text-cream/70"}`}
             >
               About
             </Link>
             <Link
               href="#contact"
               onClick={() => setIsMenuOpen(false)}
-              className={`text-lg transition-colors ${isScrolled ? "text-foreground hover:text-primary" : "text-cream hover:text-cream/70"}`}
+              className={`text-lg transition-colors ${isScrolled ? "text-foreground hover:text-primary" : "text-charcoal hover:text-charcoal/70 dark:text-cream dark:hover:text-cream/70"}`}
             >
               Contact
             </Link>
@@ -218,7 +220,7 @@ export function Header() {
               href="#contact"
               onClick={() => setIsMenuOpen(false)}
               className={`inline-flex w-fit px-5 py-2.5 text-sm tracking-wide rounded-md mt-2 ${
-                isScrolled ? "bg-primary text-primary-foreground" : "bg-cream text-charcoal"
+                isScrolled ? "bg-primary text-primary-foreground" : "bg-charcoal text-cream dark:bg-cream dark:text-charcoal"
               }`}
             >
               Get in Touch

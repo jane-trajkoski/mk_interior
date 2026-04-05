@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, X, ChevronLeft, ChevronRight } from "lucide-react"
 import type { Room } from "@/lib/rooms-data"
+import { categories } from "@/lib/rooms-data"
 import { useInView } from "@/hooks/use-in-view"
 
 interface RoomDetailClientProps {
@@ -89,12 +90,15 @@ export function RoomDetailClient({ room }: RoomDetailClientProps) {
   // Map images to layout slots — cycle if fewer images than slots
   const img = (i: number) => images[i % images.length]
 
+  const categorySlug = categories.find((cat) => cat.categoryLabel === room.category)?.id
+  const backHref = categorySlug ? `/category/${categorySlug}` : "/#projects"
+
   return (
     <main className="min-h-screen bg-background dark:bg-charcoal">
       {/* Back Button */}
       <div className="fixed top-6 left-6 z-50 animate-fade-in-left">
         <Link
-          href="/#projects"
+          href={backHref}
           className="inline-flex items-center gap-2 text-foreground dark:text-cream hover:text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md p-2"
           aria-label="Back to projects"
         >
@@ -270,11 +274,11 @@ export function RoomDetailClient({ room }: RoomDetailClientProps) {
             }`}
           >
             <Link
-              href="/#projects"
+              href={backHref}
               className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors hover-underline"
             >
               <ArrowLeft className="w-4 h-4" />
-              Back to All Projects
+              Back to {categorySlug ? room.category : "All Projects"}
             </Link>
           </div>
         </div>

@@ -151,10 +151,35 @@ export const rooms: Room[] = [
   },
 ]
 
+export interface Category {
+  id: string
+  title: string
+  categoryLabel: string
+}
+
+export const categories: Category[] = [
+  { id: "living-rooms", title: "Living Rooms", categoryLabel: "Living Rooms" },
+  { id: "bedrooms", title: "Bedrooms", categoryLabel: "Bedrooms" },
+  { id: "dining-rooms", title: "Dining Rooms", categoryLabel: "Dining Rooms" },
+  { id: "kidsrooms", title: "Kidsrooms", categoryLabel: "Kidsrooms" },
+  { id: "office", title: "Office", categoryLabel: "Office" },
+  { id: "bathrooms", title: "Bathrooms", categoryLabel: "Bathrooms" },
+]
+
 export function getRoomBySlug(slug: string): Room | undefined {
   return rooms.find((room) => room.slug === slug)
 }
 
 export function getRoomsByCategory(category: string): Room[] {
   return rooms.filter((room) => room.category === category)
+}
+
+export function getCategoryById(id: string): Category | undefined {
+  return categories.find((cat) => cat.id === id)
+}
+
+export function getRoomsByCategoryId(id: string): Room[] {
+  const category = getCategoryById(id)
+  if (!category) return []
+  return rooms.filter((room) => room.category === category.categoryLabel)
 }
