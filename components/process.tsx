@@ -1,37 +1,43 @@
 "use client"
 
-import { useEffect, useRef, useState, useCallback } from "react"
+import { useEffect, useRef, useState, useCallback, type ReactNode } from "react"
+import { MessageSquare, Lightbulb, Box, Image, Presentation } from "lucide-react"
 
-const steps = [
+const steps: { number: string; title: string; description: string; icon: ReactNode }[] = [
   {
     number: "01",
     title: "Concept",
     description:
       "We begin with understanding your vision, lifestyle, and aspirations for the space.",
+    icon: <MessageSquare className="w-6 h-6" strokeWidth={1.5} />,
   },
   {
     number: "02",
     title: "2D Plan",
     description:
       "Detailed floor plans and spatial layouts that optimize flow and functionality.",
+    icon: <Lightbulb className="w-6 h-6" strokeWidth={1.5} />,
   },
   {
     number: "03",
     title: "3D Plan",
     description:
       "Immersive 3D visualizations that bring your future space to life before construction.",
+    icon: <Box className="w-6 h-6" strokeWidth={1.5} />,
   },
   {
     number: "04",
     title: "Render",
     description:
       "Photorealistic renders showcasing materials, lighting, and final design details.",
+    icon: <Image className="w-6 h-6" strokeWidth={1.5} />,
   },
   {
     number: "05",
     title: "Presentation",
     description:
       "Complete design package with all specifications ready for implementation.",
+    icon: <Presentation className="w-6 h-6" strokeWidth={1.5} />,
   },
 ]
 
@@ -176,16 +182,18 @@ export function Process() {
               ref={bgPathRef}
               d={pathD}
               fill="none"
-              stroke="var(--border)"
-              strokeWidth="4"
+              stroke="var(--warm-gray)"
+              strokeWidth="3"
               strokeLinecap="round"
+              strokeDasharray="12 8"
+              opacity="0.5"
             />
             <path
               ref={progressPathRef}
               d={pathD}
               fill="none"
-              stroke="var(--peach)"
-              strokeWidth="4"
+              stroke="var(--warm-brown)"
+              strokeWidth="3"
               strokeLinecap="round"
               style={{ willChange: "stroke-dashoffset" }}
             />
@@ -259,22 +267,19 @@ export function Process() {
                     }}
                   >
                     <div
-                      className={`w-16 h-16 rounded-full bg-background flex items-center justify-center transition-all duration-500 ${
-                        isActive ? "shadow-lg shadow-peach/25" : "shadow-md"
+                      className={`w-[72px] h-[72px] rounded-full bg-background flex items-center justify-center transition-all duration-500 ${
+                        isActive ? "shadow-lg shadow-warm-brown/15" : "shadow-sm"
                       }`}
-                      style={{ border: `3px solid ${isActive ? "var(--peach)" : "var(--border)"}` }}
+                      style={{
+                        border: `2px solid ${isActive ? "var(--warm-brown)" : "var(--warm-gray)"}`,
+                      }}
                     >
-                      <div
-                        className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500"
-                        style={{ backgroundColor: isActive ? "var(--peach)" : "var(--muted)" }}
+                      <span
+                        className="transition-colors duration-500"
+                        style={{ color: isActive ? "var(--warm-brown)" : "var(--warm-gray)" }}
                       >
-                        <span
-                          className="text-sm font-semibold transition-colors duration-500"
-                          style={{ color: isActive ? "white" : "var(--muted-foreground)" }}
-                        >
-                          {step.number}
-                        </span>
-                      </div>
+                        {step.icon}
+                      </span>
                     </div>
                   </div>
 
@@ -345,13 +350,13 @@ export function Process() {
               <div key={step.number} className="flex gap-5 pl-0">
                 <div className="relative z-10 flex-shrink-0">
                   <div
-                    className={`w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all duration-500 ${
+                    className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-500 ${
                       isActive
-                        ? "bg-peach border-peach text-white shadow-md shadow-peach/20"
-                        : "bg-background border-border text-muted-foreground"
+                        ? "bg-background border-warm-brown text-warm-brown shadow-md shadow-warm-brown/15"
+                        : "bg-background border-warm-gray text-warm-gray"
                     }`}
                   >
-                    <span className="text-xs font-semibold">{step.number}</span>
+                    <span className="[&>svg]:w-4 [&>svg]:h-4">{step.icon}</span>
                   </div>
                 </div>
                 <div
