@@ -40,43 +40,17 @@ export function Header() {
       <nav className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group" aria-label="MK Interiors Home">
-            <div className="relative">
-              <svg
-                width="40"
-                height="48"
-                viewBox="0 0 40 48"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="text-gold"
-                aria-hidden="true"
-              >
-                {/* M shape */}
-                <path
-                  d="M2 46V8L12 24L20 12L28 24L38 8V46"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                />
-                {/* K shape integrated */}
-                <path
-                  d="M20 28V46M20 28L32 16M20 28L32 42"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                {/* Lamp pendant */}
-                <circle cx="20" cy="6" r="3" stroke="currentColor" strokeWidth="1.5" fill="none" />
-                <path d="M20 3V0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-            </div>
-            <div className="flex flex-col">
-              <span className={`font-serif text-lg tracking-wide leading-none transition-colors duration-500 ${textColorClass}`}>MK</span>
-              <span className={`text-[10px] tracking-[0.2em] uppercase transition-colors duration-500 ${mutedTextColorClass}`}>Interior Design</span>
-            </div>
+          <Link href="/" className="flex items-center group" aria-label="MK Interiors Home">
+            <img
+              src="/logo-black.png"
+              alt="MK Interiors"
+              className="h-12 w-auto block dark:hidden"
+            />
+            <img
+              src="/logo-color.png"
+              alt="MK Interiors"
+              className="h-12 w-auto hidden dark:block"
+            />
           </Link>
 
           {/* Desktop Navigation */}

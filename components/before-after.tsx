@@ -58,23 +58,27 @@ export function BeforeAfter() {
             if (e.key === "ArrowRight") setSliderPosition((p) => Math.min(p + 5, 100))
           }}
         >
-          {/* Before Image (placeholder) */}
-          <div className="absolute inset-0 bg-muted flex items-center justify-center">
-            <div className="text-center text-muted-foreground">
-              <p className="text-sm uppercase tracking-wide mb-2">Before</p>
-              <p className="text-xs">Empty room placeholder</p>
-            </div>
+          {/* Before Image */}
+          <div className="absolute inset-0">
+            <img
+              src="/images/bedroom-2.jpg"
+              alt="Room before redesign"
+              className="absolute inset-0 w-full h-full object-cover"
+              draggable={false}
+            />
           </div>
 
-          {/* After Image (placeholder) - clips based on slider */}
+          {/* After Image - clips based on slider */}
           <div
-            className="absolute inset-0 bg-secondary flex items-center justify-center"
+            className="absolute inset-0"
             style={{ clipPath: `inset(0 0 0 ${sliderPosition}%)` }}
           >
-            <div className="text-center text-muted-foreground">
-              <p className="text-sm uppercase tracking-wide mb-2">After</p>
-              <p className="text-xs">Designed room placeholder</p>
-            </div>
+            <img
+              src="/images/bedroom-1.jpg"
+              alt="Room after redesign"
+              className="absolute inset-0 w-full h-full object-cover"
+              draggable={false}
+            />
           </div>
 
           {/* Slider Handle */}

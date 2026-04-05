@@ -17,7 +17,7 @@ export function Hero() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('/minimalist-japanese-interior-design-with-natural-w.jpg')`,
+            backgroundImage: `url('/images/hero.jpg')`,
           }}
         />
         {/* Light overlay gradient for dark text readability */}
@@ -46,7 +46,7 @@ export function Hero() {
         </h1>
 
         <p
-          className={`text-base md:text-lg text-charcoal/70 dark:text-cream/80 font-light mb-10 max-w-lg transition-[opacity,transform] duration-700 ${
+          className={`text-base md:text-lg text-charcoal dark:text-cream/80 font-light mb-10 max-w-lg transition-[opacity,transform] duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
           style={{ transitionDelay: "0.6s" }}
@@ -72,9 +72,9 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Scroll Indicator - hidden on mobile to avoid overlapping with button */}
       <div
-        className={`absolute bottom-8 left-1/2 -translate-x-1/2 transition-all duration-1000 ${
+        className={`absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block transition-all duration-1000 ${
           isVisible ? "opacity-100" : "opacity-0"
         }`}
         style={{ transitionDelay: "1.2s" }}

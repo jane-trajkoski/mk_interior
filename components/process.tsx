@@ -222,7 +222,7 @@ export function Process() {
                         style={{
                           right: "60%",
                           background: isActive
-                            ? "linear-gradient(135deg, var(--warm-brown), var(--charcoal))"
+                            ? "linear-gradient(135deg, var(--warm-brown), var(--warm-brown-dark))"
                             : "var(--muted)",
                           opacity: isActive ? 1 : 0.15,
                           transform: `scaleX(${isActive ? 1 : 0.8})`,
@@ -290,7 +290,7 @@ export function Process() {
                         style={{
                           left: "60%",
                           background: isActive
-                            ? "linear-gradient(135deg, var(--warm-brown), var(--charcoal))"
+                            ? "linear-gradient(135deg, var(--warm-brown), var(--warm-brown-dark))"
                             : "var(--muted)",
                           opacity: isActive ? 1 : 0.15,
                           transform: `scaleX(${isActive ? 1 : 0.8})`,
@@ -365,7 +365,7 @@ export function Process() {
                     opacity: isActive ? 1 : 0.3,
                     transform: `translateY(${isActive ? 0 : 10}px)`,
                     background: isActive
-                      ? "linear-gradient(135deg, var(--warm-brown), var(--charcoal))"
+                      ? "linear-gradient(135deg, var(--warm-brown), var(--warm-brown-dark))"
                       : "transparent",
                   }}
                 >

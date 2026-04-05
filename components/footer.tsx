@@ -11,34 +11,16 @@ export function Footer() {
         <div className="flex flex-col items-center text-center mb-12">
           {/* Logo */}
           <div className="mb-6">
-            <svg
-              width="60"
-              height="72"
-              viewBox="0 0 40 48"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="text-gold"
-              aria-hidden="true"
-            >
-              <path
-                d="M2 46V8L12 24L20 12L28 24L38 8V46"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                fill="none"
-              />
-              <path
-                d="M20 28V46M20 28L32 16M20 28L32 42"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <circle cx="20" cy="6" r="3" stroke="currentColor" strokeWidth="1.5" fill="none" />
-              <path d="M20 3V0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-            <p className="font-serif text-lg text-foreground mt-2">Interior Design</p>
+            <img
+              src="/logo-black.png"
+              alt="MK Interiors"
+              className="h-16 w-auto mx-auto block dark:hidden"
+            />
+            <img
+              src="/logo-color.png"
+              alt="MK Interiors"
+              className="h-16 w-auto mx-auto hidden dark:block"
+            />
           </div>
         </div>
 

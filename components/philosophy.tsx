@@ -16,7 +16,7 @@ export function Philosophy() {
             }`}
           >
             <img
-              src="/minimalist-japanese-interior-design-with-natural-w.jpg"
+              src="/images/modern-interior.jpg"
               alt="Modern interior design with elegant furniture and warm lighting"
               className="absolute inset-0 w-full h-full object-cover"
             />

@@ -4,7 +4,7 @@ import { Philosophy } from "@/components/philosophy"
 import { ProjectsGrid } from "@/components/projects-grid"
 import { Moodboard } from "@/components/moodboard"
 import { BeforeAfter } from "@/components/before-after"
-import { FurnitureCarousel } from "@/components/furniture-carousel"
+import { FeaturedProjects } from "@/components/featured-projects"
 import { Services } from "@/components/services"
 import { Process } from "@/components/process"
 import { Testimonial } from "@/components/testimonial"
@@ -20,7 +20,7 @@ export default function Home() {
       <ProjectsGrid />
       <Moodboard />
       <BeforeAfter />
-      <FurnitureCarousel />
+      <FeaturedProjects />
       <Services />
       <Process />
       <Testimonial />
