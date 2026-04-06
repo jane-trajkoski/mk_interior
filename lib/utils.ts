@@ -4,3 +4,13 @@ import { twMerge } from 'tailwind-merge'
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+export function nanoid(size = 12) {
+  const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+  let id = ""
+  const bytes = crypto.getRandomValues(new Uint8Array(size))
+  for (let i = 0; i < size; i++) {
+    id += chars[bytes[i] % chars.length]
+  }
+  return id
+}

@@ -2,8 +2,18 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import type { HeroContent } from "@/lib/types/content"
 
-export function Hero() {
+const defaults: HeroContent = {
+  tagline: "Luxury Interior Design",
+  headline: "Crafting Spaces That Inspire",
+  subtitle: "We transform interiors into immersive experiences — blending elegance, comfort, and timeless design.",
+  ctaText: "Get in Touch",
+  backgroundImage: "/images/hero.jpg",
+}
+
+export function Hero({ data }: { data?: HeroContent }) {
+  const { tagline, headline, subtitle, ctaText, backgroundImage } = data ?? defaults
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -12,20 +22,15 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-end overflow-hidden">
-      {/* Background Image */}
       <div className="absolute inset-0">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url('/images/hero.jpg')`,
-          }}
+          style={{ backgroundImage: `url('${backgroundImage}')` }}
         />
-        {/* Light overlay gradient for dark text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-cream/60 via-cream/30 to-transparent dark:from-charcoal/70 dark:via-charcoal/40 dark:to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-cream/50 via-transparent to-transparent dark:from-charcoal/60 dark:via-transparent dark:to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-cream/85 via-cream/60 to-cream/20 dark:from-charcoal/90 dark:via-charcoal/60 dark:to-charcoal/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-cream/60 via-transparent to-transparent dark:from-charcoal/70 dark:via-transparent dark:to-transparent" />
       </div>
 
-      {/* Content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 pb-24 pt-40">
         <p
           className={`text-xs tracking-[0.3em] uppercase text-charcoal/70 dark:text-cream/70 mb-6 transition-[opacity,transform] duration-700 ${
@@ -33,7 +38,7 @@ export function Hero() {
           }`}
           style={{ transitionDelay: "0.2s" }}
         >
-          Luxury Interior Design
+          {tagline}
         </p>
 
         <h1
@@ -42,7 +47,7 @@ export function Hero() {
           }`}
           style={{ transitionDelay: "0.4s" }}
         >
-          Crafting Spaces That Inspire
+          {headline}
         </h1>
 
         <p
@@ -51,8 +56,7 @@ export function Hero() {
           }`}
           style={{ transitionDelay: "0.6s" }}
         >
-          We transform interiors into immersive experiences — blending
-          elegance, comfort, and timeless design.
+          {subtitle}
         </p>
 
         <div
@@ -66,13 +70,12 @@ export function Hero() {
             className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-foreground/20 bg-background/35 px-5 py-3 text-[11px] tracking-[0.3em] uppercase font-medium text-foreground backdrop-blur-sm transition-all duration-500 hover:-translate-y-0.5 hover:border-foreground hover:shadow-lg"
           >
             <span className="absolute inset-0 translate-y-full bg-foreground transition-transform duration-500 ease-out group-hover:translate-y-0" />
-            <span className="relative z-10 transition-colors duration-500 group-hover:text-background">Get in Touch</span>
+            <span className="relative z-10 transition-colors duration-500 group-hover:text-background">{ctaText}</span>
             <span className="relative z-10 text-base transition-all duration-500 group-hover:translate-x-1 group-hover:text-background">→</span>
           </Link>
         </div>
       </div>
 
-      {/* Scroll Indicator - hidden on mobile to avoid overlapping with button */}
       <div
         className={`absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block transition-all duration-1000 ${
           isVisible ? "opacity-100" : "opacity-0"

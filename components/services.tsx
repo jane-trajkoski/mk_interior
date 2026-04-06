@@ -2,50 +2,40 @@
 
 import { useInView } from "@/hooks/use-in-view"
 import { Home, Layers, Palette, Lightbulb } from "lucide-react"
+import { iconMap } from "@/lib/data/icons"
+import type { ServicesContent } from "@/lib/types/content"
+import type { LucideIcon } from "lucide-react"
 
-const services = [
-  {
-    title: "Residential Design",
-    description: "Complete home transformations that honor how you truly live. From single rooms to entire properties.",
-    icon: Home,
-  },
-  {
-    title: "3D Visualization",
-    description: "Photorealistic renders and immersive 3D tours that bring your future space to life.",
-    icon: Layers,
-  },
-  {
-    title: "Material Curation",
-    description: "Hand-selected natural materials and artisan pieces that age beautifully and tell a story.",
-    icon: Palette,
-  },
-  {
-    title: "Light Design",
-    description: "Layered lighting schemes that shift with the day, creating atmosphere and supporting wellbeing.",
-    icon: Lightbulb,
-  },
+const defaultServices = [
+  { title: "Residential Design", description: "Complete home transformations that honor how you truly live. From single rooms to entire properties.", iconName: "Home" },
+  { title: "3D Visualization", description: "Photorealistic renders and immersive 3D tours that bring your future space to life.", iconName: "Layers" },
+  { title: "Material Curation", description: "Hand-selected natural materials and artisan pieces that age beautifully and tell a story.", iconName: "Palette" },
+  { title: "Light Design", description: "Layered lighting schemes that shift with the day, creating atmosphere and supporting wellbeing.", iconName: "Lightbulb" },
 ]
 
-export function Services() {
+const fallbackIcons: Record<string, LucideIcon> = { Home, Layers, Palette, Lightbulb }
+
+export function Services({ data }: { data?: ServicesContent }) {
+  const sectionTagline = data?.sectionTagline ?? "What We Offer"
+  const sectionTitle = data?.sectionTitle ?? "Our Services"
+  const items = data?.items ?? defaultServices
   const [sectionRef, isInView] = useInView<HTMLElement>({ once: true, margin: "-100px" })
 
   return (
     <section ref={sectionRef} id="services" className="py-24 lg:py-32 px-6 lg:px-12 bg-secondary/30">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div
           className={`text-center mb-16 transition-all duration-600 ${
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
-          <p className="text-xs tracking-[0.2em] uppercase text-primary mb-4">What We Offer</p>
-          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light text-foreground">Our Services</h2>
+          <p className="text-xs tracking-[0.2em] uppercase text-primary mb-4">{sectionTagline}</p>
+          <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-light text-foreground">{sectionTitle}</h2>
         </div>
 
-        {/* Services Grid */}
         <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
-          {services.map((service, index) => {
-            const IconComponent = service.icon
+          {items.map((service, index) => {
+            const IconComponent = iconMap[service.iconName] ?? fallbackIcons[service.iconName] ?? Home
             return (
               <div
                 key={service.title}

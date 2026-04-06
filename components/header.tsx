@@ -5,7 +5,9 @@ import Link from "next/link"
 import { useTheme } from "next-themes"
 import { Moon, Sun } from "lucide-react"
 
-export function Header() {
+export function Header({ logoLight, logoDark }: { logoLight?: string; logoDark?: string }) {
+  const lightLogo = logoLight ?? "/logo-black.png"
+  const darkLogo = logoDark ?? "/logo-color.png"
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const { theme, setTheme } = useTheme()
@@ -42,12 +44,12 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center group" aria-label="MK Interiors Home">
             <img
-              src="/logo-black.png"
+              src={lightLogo}
               alt="MK Interiors"
               className="h-12 w-auto block dark:hidden"
             />
             <img
-              src="/logo-color.png"
+              src={darkLogo}
               alt="MK Interiors"
               className="h-12 w-auto hidden dark:block"
             />

@@ -3,7 +3,18 @@
 import Link from "next/link"
 import { Instagram, Facebook, Linkedin } from "lucide-react"
 
-export function Footer() {
+interface FooterProps {
+  email?: string
+  socialLinks?: { instagram: string; facebook: string; linkedin: string; tiktok: string }
+  logoLight?: string
+  logoDark?: string
+}
+
+export function Footer({ email, socialLinks, logoLight, logoDark }: FooterProps = {}) {
+  const contactEmail = email ?? "creativeinteriors.mk@gmail.com"
+  const lightLogo = logoLight ?? "/logo-black.png"
+  const darkLogo = logoDark ?? "/logo-color.png"
+  const links = socialLinks ?? { instagram: "#", facebook: "#", linkedin: "#", tiktok: "#" }
   return (
     <footer className="py-16 px-6 lg:px-12 bg-secondary/30">
       <div className="max-w-7xl mx-auto">
@@ -12,12 +23,12 @@ export function Footer() {
           {/* Logo */}
           <div className="mb-6">
             <img
-              src="/logo-black.png"
+              src={lightLogo}
               alt="MK Interiors"
               className="h-16 w-auto mx-auto block dark:hidden"
             />
             <img
-              src="/logo-color.png"
+              src={darkLogo}
               alt="MK Interiors"
               className="h-16 w-auto mx-auto hidden dark:block"
             />
@@ -27,7 +38,7 @@ export function Footer() {
         {/* Contact Info */}
         <div className="flex flex-col items-center gap-4 mb-12">
           <a
-            href="mailto:creativeinteriors.mk@gmail.com"
+            href={`mailto:${contactEmail}`}
             className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300"
           >
             <svg
@@ -43,35 +54,35 @@ export function Footer() {
                 d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
               />
             </svg>
-            <span className="text-sm">creativeinteriors.mk@gmail.com</span>
+            <span className="text-sm">{contactEmail}</span>
           </a>
         </div>
 
         {/* Social Links */}
         <div className="flex justify-center gap-6 mb-12">
           <a
-            href="#"
+            href={links.instagram}
             className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             aria-label="Follow us on Instagram"
           >
             <Instagram className="w-4 h-4" />
           </a>
           <a
-            href="#"
+            href={links.facebook}
             className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             aria-label="Follow us on Facebook"
           >
             <Facebook className="w-4 h-4" />
           </a>
           <a
-            href="#"
+            href={links.linkedin}
             className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             aria-label="Follow us on LinkedIn"
           >
             <Linkedin className="w-4 h-4" />
           </a>
           <a
-            href="#"
+            href={links.tiktok}
             className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             aria-label="Follow us on TikTok"
           >

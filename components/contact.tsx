@@ -4,8 +4,16 @@ import type React from "react"
 import { useState } from "react"
 import { useInView } from "@/hooks/use-in-view"
 import { Send, Mail, MapPin } from "lucide-react"
+import { submitContactForm } from "@/lib/actions/contact"
+import type { ContactContent } from "@/lib/types/content"
 
-export function Contact() {
+export function Contact({ data }: { data?: ContactContent }) {
+  const sectionTagline = data?.sectionTagline ?? "Get in Touch"
+  const sectionTitle = data?.sectionTitle ?? "Ready to transform your space?"
+  const sectionSubtitle = data?.sectionSubtitle ?? "Every meaningful space begins with a conversation. Share your vision, and let's explore how we might bring it to life together."
+  const contactEmail = data?.email ?? "creativeinteriors.mk@gmail.com"
+  const locationText = data?.locationText ?? "Available Worldwide"
+  const projectTypes = data?.projectTypes ?? ["Residential", "Commercial", "Renovation", "Consultation"]
   const [sectionRef, isInView] = useInView<HTMLElement>({ once: true, margin: "-100px" })
   const [formState, setFormState] = useState({
     name: "",
@@ -14,19 +22,30 @@ export function Contact() {
     projectType: "",
     message: "",
   })
+  const [honeypot, setHoneypot] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [error, setError] = useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (honeypot) return // bot detected
     setIsSubmitting(true)
+    setError("")
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    try {
+      const result = await submitContactForm(formState)
+      if (result.success) {
+        setIsSubmitted(true)
+        setFormState({ name: "", email: "", phone: "", projectType: "", message: "" })
+      } else {
+        setError("Please check your inputs and try again.")
+      }
+    } catch {
+      setError("Something went wrong. Please try again.")
+    }
 
     setIsSubmitting(false)
-    setIsSubmitted(true)
-    setFormState({ name: "", email: "", phone: "", projectType: "", message: "" })
   }
 
   return (
@@ -39,13 +58,12 @@ export function Contact() {
               isInView ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
             }`}
           >
-            <p className="text-xs tracking-[0.2em] uppercase text-primary mb-4">Get in Touch</p>
+            <p className="text-xs tracking-[0.2em] uppercase text-primary mb-4">{sectionTagline}</p>
             <h2 className="font-serif text-4xl md:text-5xl font-light text-foreground mb-6 text-balance">
-              Ready to transform your space?
+              {sectionTitle}
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-10 max-w-md">
-              Every meaningful space begins with a conversation. Share your vision, and let&apos;s explore how we might
-              bring it to life together.
+              {sectionSubtitle}
             </p>
 
             {/* Contact Info */}
@@ -57,10 +75,10 @@ export function Contact() {
                 <div>
                   <p className="text-xs tracking-wide uppercase text-muted-foreground mb-1">Email</p>
                   <a
-                    href="mailto:creativeinteriors.mk@gmail.com"
+                    href={`mailto:${contactEmail}`}
                     className="text-foreground hover:text-primary transition-colors hover-underline"
                   >
-                    creativeinteriors.mk@gmail.com
+                    {contactEmail}
                   </a>
                 </div>
               </div>
@@ -71,7 +89,7 @@ export function Contact() {
                 </div>
                 <div>
                   <p className="text-xs tracking-wide uppercase text-muted-foreground mb-1">Location</p>
-                  <p className="text-foreground">Available Worldwide</p>
+                  <p className="text-foreground">{locationText}</p>
                 </div>
               </div>
             </div>
@@ -156,10 +174,9 @@ export function Contact() {
                       className="w-full bg-background border border-border rounded-md px-4 py-3 text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-colors appearance-none"
                     >
                       <option value="">Select a type</option>
-                      <option value="residential">Residential</option>
-                      <option value="commercial">Commercial</option>
-                      <option value="renovation">Renovation</option>
-                      <option value="consultation">Consultation</option>
+                      {projectTypes.map((type) => (
+                        <option key={type} value={type.toLowerCase()}>{type}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -178,6 +195,13 @@ export function Contact() {
                     required
                   />
                 </div>
+
+                {/* Honeypot */}
+                <div className="absolute opacity-0 pointer-events-none" aria-hidden="true">
+                  <input type="text" name="website" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} tabIndex={-1} autoComplete="off" />
+                </div>
+
+                {error && <p className="text-sm text-destructive">{error}</p>}
 
                 <button
                   type="submit"
