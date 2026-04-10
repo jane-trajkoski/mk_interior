@@ -18,14 +18,15 @@ export function ImageUpload({ value, onChange, label }: ImageUploadProps) {
       if (!file.type.startsWith("image/")) return
       setUploading(true)
       try {
-        // For local dev without Vercel Blob, use a data URL fallback
-        const reader = new FileReader()
-        reader.onloadend = () => {
-          onChange(reader.result as string)
-          setUploading(false)
-        }
-        reader.readAsDataURL(file)
-      } catch {
+        const formData = new FormData()
+        formData.append("file", file)
+        const res = await fetch("/api/admin/upload", { method: "POST", body: formData })
+        const json = await res.json()
+        if (!res.ok) throw new Error(json.error || "Upload failed")
+        onChange(json.url)
+      } catch (err) {
+        console.error("Upload failed:", err)
+      } finally {
         setUploading(false)
       }
     },
