@@ -37,12 +37,14 @@ export async function POST(req: NextRequest) {
       }
     }
   } catch {
-    // DB not available — fall back to env var
-    const adminPassword = process.env.ADMIN_PASSWORD
-    if (adminPassword && password === adminPassword) {
-      await createSession("Admin")
-      return NextResponse.json({ success: true })
-    }
+    // DB not available — continue to env var fallback
+  }
+
+  // Fallback to env var (useful when adminUsers table is empty or DB unavailable)
+  const adminPassword = process.env.ADMIN_PASSWORD
+  if (adminPassword && password === adminPassword) {
+    await createSession("Admin")
+    return NextResponse.json({ success: true })
   }
 
   return NextResponse.json({ error: "Invalid password" }, { status: 401 })
