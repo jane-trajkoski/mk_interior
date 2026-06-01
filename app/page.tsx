@@ -4,7 +4,6 @@ import { Header } from "@/components/header"
 import { Hero } from "@/components/hero"
 import { Philosophy } from "@/components/philosophy"
 import { ProjectsGrid } from "@/components/projects-grid"
-import { Moodboard } from "@/components/moodboard"
 import { BeforeAfter } from "@/components/before-after"
 import { FeaturedProjects } from "@/components/featured-projects"
 import { Services } from "@/components/services"
@@ -16,7 +15,7 @@ import { getContent } from "@/lib/data/repository"
 import { getAllRooms, getAllCategories } from "@/lib/data/repository"
 
 export default async function Home() {
-  let heroData, philosophyData, projectsSectionData, moodboardsData, beforeAfterData
+  let heroData, philosophyData, projectsSectionData, beforeAfterData
   let featuredProjectsData, servicesData, processStepsData, testimonialsData, contactData
   let socialLinksData, siteSettingsData
   let roomsList, categoriesList
@@ -26,7 +25,6 @@ export default async function Home() {
       heroData,
       philosophyData,
       projectsSectionData,
-      moodboardsData,
       beforeAfterData,
       featuredProjectsData,
       servicesData,
@@ -41,7 +39,6 @@ export default async function Home() {
       getContent("hero"),
       getContent("philosophy"),
       getContent("projects-section"),
-      getContent("moodboards"),
       getContent("before-after"),
       getContent("featured-projects"),
       getContent("services"),
@@ -61,7 +58,6 @@ export default async function Home() {
         <Hero />
         <Philosophy />
         <ProjectsGrid />
-        <Moodboard />
         <BeforeAfter />
         <FeaturedProjects />
         <Services />
@@ -82,7 +78,6 @@ export default async function Home() {
         data={projectsSectionData}
         categories={categoriesList}
       />
-      {moodboardsData && <Moodboard data={moodboardsData} />}
       {beforeAfterData && <BeforeAfter data={beforeAfterData} />}
       <FeaturedProjects data={featuredProjectsData} rooms={roomsList} />
       {servicesData && <Services data={servicesData} />}

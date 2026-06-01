@@ -136,10 +136,10 @@ export const roomSchema = z.object({
 })
 
 export const categorySchema = z.object({
-  id: z.string().min(1),
+  id: z.string().optional(),
   title: z.string().min(1),
   slug: z.string().min(1),
-  image: z.string().min(1),
+  image: z.string().default(""),
   sort_order: z.number().default(0),
 })
 

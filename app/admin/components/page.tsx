@@ -10,7 +10,6 @@ import type {
   ServicesContent,
   ProcessStepsContent,
   TestimonialsContent,
-  MoodboardsContent,
   BeforeAfterContent,
 } from "@/lib/types/content"
 
@@ -169,55 +168,6 @@ function TestimonialsTab() {
   )
 }
 
-function MoodboardsTab() {
-  const [data, setData] = useState<MoodboardsContent | null>(null)
-  const [saving, setSaving] = useState(false)
-
-  useEffect(() => {
-    fetch("/api/admin/content/moodboards").then((r) => r.json()).then(setData).catch(() => {})
-  }, [])
-
-  if (!data) return <p className="text-sm text-muted-foreground">Loading...</p>
-
-  async function save() {
-    if (!data) return
-    setSaving(true)
-    const result = await updateContent("moodboards", data)
-    setSaving(false)
-    if (result.success) toast.success("Moodboards saved")
-    else toast.error("Failed to save")
-  }
-
-  return (
-    <div className="space-y-4 max-w-2xl">
-      <div>
-        <label className="block text-sm font-medium mb-1">Section Title</label>
-        <input type="text" value={data.sectionTitle} onChange={(e) => setData({ ...data, sectionTitle: e.target.value })} className="w-full border border-border rounded-md px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary" />
-      </div>
-      <div>
-        <label className="block text-sm font-medium mb-1">Section Description</label>
-        <textarea value={data.sectionDescription} onChange={(e) => setData({ ...data, sectionDescription: e.target.value })} rows={2} className="w-full border border-border rounded-md px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary resize-none" />
-      </div>
-      <ArrayFieldEditor
-        label="Moodboards"
-        items={data.items}
-        onChange={(items) => setData({ ...data, items })}
-        createItem={() => ({ id: "", title: "", style: "" })}
-        renderItem={(item, _i, update) => (
-          <div className="space-y-2">
-            <input type="text" value={item.id} onChange={(e) => update({ ...item, id: e.target.value })} placeholder="ID (slug)" className="w-full border border-border rounded-md px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary" />
-            <input type="text" value={item.title} onChange={(e) => update({ ...item, title: e.target.value })} placeholder="Title" className="w-full border border-border rounded-md px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary" />
-            <input type="text" value={item.style} onChange={(e) => update({ ...item, style: e.target.value })} placeholder="Style description" className="w-full border border-border rounded-md px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary" />
-          </div>
-        )}
-      />
-      <button onClick={save} disabled={saving} className="px-4 py-2 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary/90 disabled:opacity-50">
-        {saving ? "Saving..." : "Save"}
-      </button>
-    </div>
-  )
-}
-
 function BeforeAfterTab() {
   const [data, setData] = useState<BeforeAfterContent | null>(null)
   const [saving, setSaving] = useState(false)
@@ -268,7 +218,7 @@ function BeforeAfterTab() {
   )
 }
 
-type TabName = "services" | "process" | "testimonials" | "moodboards" | "before-after"
+type TabName = "services" | "process" | "testimonials" | "before-after"
 
 export default function AdminComponentsPage() {
   const [tab, setTab] = useState<TabName>("services")
@@ -280,14 +230,12 @@ export default function AdminComponentsPage() {
         <TabButton active={tab === "services"} onClick={() => setTab("services")}>Services</TabButton>
         <TabButton active={tab === "process"} onClick={() => setTab("process")}>Process</TabButton>
         <TabButton active={tab === "testimonials"} onClick={() => setTab("testimonials")}>Testimonials</TabButton>
-        <TabButton active={tab === "moodboards"} onClick={() => setTab("moodboards")}>Moodboards</TabButton>
         <TabButton active={tab === "before-after"} onClick={() => setTab("before-after")}>Before/After</TabButton>
       </div>
       <div className="bg-background border border-border rounded-lg p-6">
         {tab === "services" && <ServicesTab />}
         {tab === "process" && <ProcessTab />}
         {tab === "testimonials" && <TestimonialsTab />}
-        {tab === "moodboards" && <MoodboardsTab />}
         {tab === "before-after" && <BeforeAfterTab />}
       </div>
     </div>

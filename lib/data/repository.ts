@@ -1,6 +1,6 @@
 import { db } from "@/lib/db"
 import { content, rooms, categories } from "@/lib/db/schema"
-import { eq, asc } from "drizzle-orm"
+import { eq, asc, count } from "drizzle-orm"
 import { unstable_cache } from "next/cache"
 import type { ContentMap, ContentKey } from "@/lib/types/content"
 
@@ -59,4 +59,9 @@ export async function getAllCategories() {
 export async function getCategoryById(id: string) {
   const result = await db.select().from(categories).where(eq(categories.id, id)).limit(1)
   return result[0] ?? null
+}
+
+export async function getRoomCountByCategoryId(categoryId: string): Promise<number> {
+  const result = await db.select({ value: count() }).from(rooms).where(eq(rooms.category_id, categoryId))
+  return result[0]?.value ?? 0
 }

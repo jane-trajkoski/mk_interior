@@ -28,7 +28,15 @@ export default async function AdminProjectsPage() {
 
       {/* Categories */}
       <div className="mb-8">
-        <h2 className="text-lg font-medium text-foreground mb-3">Categories</h2>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-lg font-medium text-foreground">Categories</h2>
+          <Link
+            href="/admin/categories"
+            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Manage →
+          </Link>
+        </div>
         <div className="flex flex-wrap gap-2">
           {categoriesList.map((cat) => (
             <div
