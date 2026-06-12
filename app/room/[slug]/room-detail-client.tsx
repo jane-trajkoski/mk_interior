@@ -18,19 +18,21 @@ function ImageSlot({
   onOpen,
   className,
   children,
+  overlay,
 }: {
   image: { src: string; alt: string } | undefined
   index: number
   onOpen: (index: number) => void
   className?: string
   children?: React.ReactNode
+  overlay?: React.ReactNode
 }) {
   return (
     <button
       type="button"
-      onClick={() => onOpen(index)}
+      onClick={() => image && onOpen(index)}
       className={`${className} cursor-pointer group/img focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg`}
-      aria-label={image ? `View ${image.alt}` : `View image ${index + 1}`}
+      aria-label={image ? `View ${image.alt || `image ${index + 1}`}` : `View image ${index + 1}`}
     >
       {image ? (
         <Image
@@ -44,6 +46,7 @@ function ImageSlot({
         children
       )}
       <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/10 transition-colors duration-300 rounded-lg" />
+      {overlay}
     </button>
   )
 }
@@ -87,8 +90,9 @@ export function RoomDetailClient({ room }: RoomDetailClientProps) {
     }
   }, [lightboxIndex, closeLightbox, goNext, goPrev])
 
-  // Map images to layout slots — cycle if fewer images than slots
-  const img = (i: number) => images[i % images.length]
+  // Layout slots: images[0] is the hero, images[1..3] fill the collage.
+  // Any further images are reachable through the lightbox ("+N" badge).
+  const extraCount = Math.max(images.length - 4, 0)
 
   const categorySlug = categories.find((cat) => cat.categoryLabel === room.category)?.id
   const backHref = categorySlug ? `/category/${categorySlug}` : "/#projects"
@@ -122,7 +126,7 @@ export function RoomDetailClient({ room }: RoomDetailClientProps) {
             }`}
           >
             <ImageSlot
-              image={img(0)}
+              image={images[0]}
               index={0}
               onOpen={openLightbox}
               className="relative block w-full aspect-[16/10] rounded-lg overflow-hidden bg-muted"
@@ -143,8 +147,8 @@ export function RoomDetailClient({ room }: RoomDetailClientProps) {
             >
               {/* Image 1 - Back left */}
               <ImageSlot
-                image={img(1)}
-                index={1 % images.length}
+                image={images[1]}
+                index={1}
                 onOpen={openLightbox}
                 className="absolute top-0 left-0 w-3/4 aspect-[3/4] rounded-lg overflow-hidden bg-muted shadow-lg z-10"
               >
@@ -155,8 +159,8 @@ export function RoomDetailClient({ room }: RoomDetailClientProps) {
 
               {/* Image 2 - Front right, overlapping */}
               <ImageSlot
-                image={img(2)}
-                index={2 % images.length}
+                image={images[2]}
+                index={2}
                 onOpen={openLightbox}
                 className="absolute top-24 right-0 w-2/3 aspect-[4/5] rounded-lg overflow-hidden bg-muted shadow-xl z-20"
               >
@@ -165,26 +169,26 @@ export function RoomDetailClient({ room }: RoomDetailClientProps) {
                 </div>
               </ImageSlot>
 
-              {/* Decorative element */}
-              {images.length > 3 && (
-                <ImageSlot
-                  image={img(3)}
-                  index={3 % images.length}
-                  onOpen={openLightbox}
-                  className="absolute bottom-4 left-1/4 w-1/2 aspect-[3/2] rounded-lg overflow-hidden bg-muted shadow-md z-[5] opacity-60"
-                >
-                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-peach/20 to-muted">
-                    <span className="text-muted-foreground text-xs">Detail</span>
-                  </div>
-                </ImageSlot>
-              )}
-              {images.length <= 3 && (
-                <div className="absolute bottom-4 left-1/4 w-1/2 aspect-[3/2] rounded-lg overflow-hidden bg-muted shadow-md z-[5] opacity-60">
-                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-peach/20 to-muted">
-                    <span className="text-muted-foreground text-xs">Detail</span>
-                  </div>
+              {/* Image 3 - Bottom, with "+N" badge when more images exist */}
+              <ImageSlot
+                image={images[3]}
+                index={3}
+                onOpen={openLightbox}
+                className={`absolute bottom-4 left-1/4 w-1/2 aspect-[3/2] rounded-lg overflow-hidden bg-muted shadow-md z-[5] ${
+                  images[3] ? "" : "opacity-60"
+                }`}
+                overlay={
+                  extraCount > 0 ? (
+                    <div className="absolute inset-0 flex items-center justify-center bg-charcoal/50 rounded-lg">
+                      <span className="text-cream font-serif text-2xl">+{extraCount}</span>
+                    </div>
+                  ) : undefined
+                }
+              >
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-peach/20 to-muted">
+                  <span className="text-muted-foreground text-xs">Detail</span>
                 </div>
-              )}
+              </ImageSlot>
             </div>
 
             {/* Description & Colors */}
@@ -218,51 +222,6 @@ export function RoomDetailClient({ room }: RoomDetailClientProps) {
                     </span>
                   </div>
                 ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Additional Gallery */}
-          <div
-            className={`relative transition-all duration-700 delay-500 ${
-              isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-            }`}
-          >
-            <div className="grid md:grid-cols-2 gap-4">
-              {/* Large image on left */}
-              <ImageSlot
-                image={img(0)}
-                index={0}
-                onOpen={openLightbox}
-                className="relative aspect-[4/5] rounded-lg overflow-hidden bg-muted"
-              >
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-secondary to-muted">
-                  <span className="text-muted-foreground text-sm">Gallery image 1</span>
-                </div>
-              </ImageSlot>
-
-              {/* Two stacked images on right */}
-              <div className="relative">
-                <ImageSlot
-                  image={img(1)}
-                  index={1 % images.length}
-                  onOpen={openLightbox}
-                  className="relative aspect-[4/3] rounded-lg overflow-hidden bg-muted mb-4"
-                >
-                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-muted to-secondary/50">
-                    <span className="text-muted-foreground text-sm">Gallery image 2</span>
-                  </div>
-                </ImageSlot>
-                <ImageSlot
-                  image={img(2)}
-                  index={2 % images.length}
-                  onOpen={openLightbox}
-                  className="relative aspect-[4/3] rounded-lg overflow-hidden bg-muted"
-                >
-                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-peach/30 to-muted">
-                    <span className="text-muted-foreground text-sm">Gallery image 3</span>
-                  </div>
-                </ImageSlot>
               </div>
             </div>
           </div>
