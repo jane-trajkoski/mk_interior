@@ -1,4 +1,8 @@
 import { z } from "zod"
+import { slugify } from "@/lib/utils"
+
+// Normalized at the schema so every write path stores URL-safe slugs
+const slugSchema = z.string().transform(slugify).pipe(z.string().min(1))
 
 export const heroSchema = z.object({
   tagline: z.string().min(1),
@@ -126,7 +130,7 @@ export const siteSettingsSchema = z.object({
 
 export const roomSchema = z.object({
   id: z.string().optional(),
-  slug: z.string().min(1),
+  slug: slugSchema,
   title: z.string().min(1),
   category_id: z.string().min(1),
   description: z.string().min(1),
@@ -138,7 +142,7 @@ export const roomSchema = z.object({
 export const categorySchema = z.object({
   id: z.string().optional(),
   title: z.string().min(1),
-  slug: z.string().min(1),
+  slug: slugSchema,
   image: z.string().default(""),
   sort_order: z.number().default(0),
 })

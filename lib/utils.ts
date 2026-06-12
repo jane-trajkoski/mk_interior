@@ -5,6 +5,25 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export function slugify(str: string) {
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "")
+}
+
+// URL params may arrive percent-encoded; normalize so old un-slugified links still resolve
+export function normalizeSlugParam(raw: string) {
+  let decoded = raw
+  try {
+    decoded = decodeURIComponent(raw)
+  } catch {}
+  return slugify(decoded)
+}
+
 export function nanoid(size = 12) {
   const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
   let id = ""

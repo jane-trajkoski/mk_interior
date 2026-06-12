@@ -32,7 +32,7 @@ function ProjectCard({ project, index, isInView }: { project: CategoryLike; inde
         href={`/category/${project.id}`}
         className="group block relative overflow-hidden rounded-lg aspect-[4/3] bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       >
-        <img src={project.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <img src={project.image || "/placeholder.jpg"} alt={project.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
         <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-colors duration-500" />
         <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-charcoal/60 to-transparent">
           <h3 className="font-serif text-xl md:text-2xl text-cream tracking-wide text-center">

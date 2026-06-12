@@ -17,6 +17,7 @@ export function BeforeAfter({ data }: { data?: BeforeAfterContent }) {
   const d = data ?? defaults
   const [sectionRef, isInView] = useInView<HTMLElement>({ once: true, margin: "-100px" })
   const [sliderPosition, setSliderPosition] = useState(50)
+  const [isDragging, setIsDragging] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const handleMove = (clientX: number) => {
@@ -25,6 +26,17 @@ export function BeforeAfter({ data }: { data?: BeforeAfterContent }) {
     const x = clientX - rect.left
     const percentage = Math.min(Math.max((x / rect.width) * 100, 0), 100)
     setSliderPosition(percentage)
+  }
+
+  const startDrag = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.currentTarget.setPointerCapture(e.pointerId)
+    setIsDragging(true)
+  }
+
+  const endDrag = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.currentTarget.releasePointerCapture(e.pointerId)
+    setIsDragging(false)
   }
 
   return (
@@ -41,11 +53,9 @@ export function BeforeAfter({ data }: { data?: BeforeAfterContent }) {
 
         <div
           ref={containerRef}
-          className={`relative aspect-[16/10] rounded-lg overflow-hidden cursor-col-resize select-none bg-muted transition-all duration-700 delay-200 ${
+          className={`relative aspect-[16/10] rounded-lg overflow-hidden select-none bg-muted transition-all duration-700 delay-200 ${
             isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
-          onMouseMove={(e) => handleMove(e.clientX)}
-          onTouchMove={(e) => handleMove(e.touches[0].clientX)}
           role="slider"
           aria-label="Before and after comparison slider"
           aria-valuenow={Math.round(sliderPosition)}
@@ -63,8 +73,18 @@ export function BeforeAfter({ data }: { data?: BeforeAfterContent }) {
           <div className="absolute inset-0" style={{ clipPath: `inset(0 0 0 ${sliderPosition}%)` }}>
             <img src={d.afterImage} alt="Room after redesign" className="absolute inset-0 w-full h-full object-cover" draggable={false} />
           </div>
-          <div className="absolute top-0 bottom-0 w-1 bg-cream shadow-lg cursor-col-resize" style={{ left: `${sliderPosition}%`, transform: "translateX(-50%)" }}>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-cream shadow-lg flex items-center justify-center">
+          <div className="absolute top-0 bottom-0 w-1 bg-cream shadow-lg" style={{ left: `${sliderPosition}%`, transform: "translateX(-50%)" }}>
+            <div
+              className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-cream shadow-lg flex items-center justify-center touch-none ${
+                isDragging ? "cursor-grabbing" : "cursor-grab"
+              }`}
+              onPointerDown={startDrag}
+              onPointerMove={(e) => {
+                if (isDragging) handleMove(e.clientX)
+              }}
+              onPointerUp={endDrag}
+              onPointerCancel={endDrag}
+            >
               <div className="flex gap-1">
                 <div className="w-0.5 h-4 bg-charcoal/40 rounded-full" />
                 <div className="w-0.5 h-4 bg-charcoal/40 rounded-full" />

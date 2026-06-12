@@ -4,6 +4,8 @@ import { useState, useTransition } from "react"
 import { Plus, Pencil, Trash2 } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
+import { ImageUpload } from "@/components/admin/image-upload"
+import { slugify } from "@/lib/utils"
 import {
   Dialog,
   DialogContent,
@@ -28,20 +30,12 @@ type Props = {
   deleteCategory: (id: string) => Promise<{ success?: boolean; error?: string }>
 }
 
-function slugify(str: string) {
-  return str
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-}
-
 export function CategoriesClient({ categories, createCategory, updateCategory, deleteCategory }: Props) {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editing, setEditing] = useState<Category | null>(null)
   const [title, setTitle] = useState("")
   const [slug, setSlug] = useState("")
+  const [image, setImage] = useState("")
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(false)
   const [isPending, startTransition] = useTransition()
 
@@ -49,6 +43,7 @@ export function CategoriesClient({ categories, createCategory, updateCategory, d
     setEditing(null)
     setTitle("")
     setSlug("")
+    setImage("")
     setSlugManuallyEdited(false)
     setDialogOpen(true)
   }
@@ -57,6 +52,7 @@ export function CategoriesClient({ categories, createCategory, updateCategory, d
     setEditing(cat)
     setTitle(cat.title)
     setSlug(cat.slug)
+    setImage(cat.image)
     setSlugManuallyEdited(true)
     setDialogOpen(true)
   }
@@ -78,7 +74,7 @@ export function CategoriesClient({ categories, createCategory, updateCategory, d
     if (!title.trim() || !slug.trim()) return
 
     startTransition(async () => {
-      const data = { title: title.trim(), slug: slug.trim() }
+      const data = { title: title.trim(), slug: slug.trim(), image }
       const result = editing
         ? await updateCategory(editing.id, data)
         : await createCategory(data)
@@ -123,6 +119,7 @@ export function CategoriesClient({ categories, createCategory, updateCategory, d
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-muted/40">
+                <th className="text-left px-4 py-3 font-medium text-muted-foreground">Image</th>
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground">Title</th>
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground">Slug</th>
                 <th className="text-left px-4 py-3 font-medium text-muted-foreground">Rooms</th>
@@ -135,6 +132,13 @@ export function CategoriesClient({ categories, createCategory, updateCategory, d
                   key={cat.id}
                   className={`border-b border-border last:border-0 ${i % 2 === 0 ? "" : "bg-muted/20"}`}
                 >
+                  <td className="px-4 py-3">
+                    {cat.image ? (
+                      <img src={cat.image} alt={cat.title} className="w-14 h-10 object-cover rounded border border-border" />
+                    ) : (
+                      <div className="w-14 h-10 rounded border border-dashed border-border bg-muted/40" />
+                    )}
+                  </td>
                   <td className="px-4 py-3 font-medium text-foreground">{cat.title}</td>
                   <td className="px-4 py-3 text-muted-foreground font-mono text-xs">{cat.slug}</td>
                   <td className="px-4 py-3 text-muted-foreground">{cat.roomCount}</td>
@@ -196,6 +200,11 @@ export function CategoriesClient({ categories, createCategory, updateCategory, d
                 className="w-full px-3 py-2 text-sm border border-border rounded-md bg-background text-foreground font-mono placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               />
               <p className="text-xs text-muted-foreground">Used in URLs. Auto-generated from title.</p>
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium text-foreground">Preview image</label>
+              <ImageUpload value={image} onChange={setImage} />
+              <p className="text-xs text-muted-foreground">Shown on the category card on the homepage.</p>
             </div>
             <DialogFooter>
               <button

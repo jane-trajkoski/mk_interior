@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic"
 import { notFound } from "next/navigation"
 import { getCategoryById as getDbCategory, getRoomsByCategoryId as getDbRooms } from "@/lib/data/repository"
 import { getCategoryById as getLocalCategory, getRoomsByCategoryId as getLocalRooms } from "@/lib/rooms-data"
+import { normalizeSlugParam } from "@/lib/utils"
 import { CategoryClient } from "./category-client"
 
 interface CategoryPageProps {
@@ -10,7 +11,8 @@ interface CategoryPageProps {
 }
 
 export async function generateMetadata({ params }: CategoryPageProps) {
-  const { slug } = await params
+  const { slug: rawSlug } = await params
+  const slug = normalizeSlugParam(rawSlug)
   let category: { title: string } | null = null
   try {
     category = await getDbCategory(slug)
@@ -27,7 +29,8 @@ export async function generateMetadata({ params }: CategoryPageProps) {
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
-  const { slug } = await params
+  const { slug: rawSlug } = await params
+  const slug = normalizeSlugParam(rawSlug)
 
   // Try DB first
   try {

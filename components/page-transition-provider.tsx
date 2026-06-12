@@ -7,21 +7,34 @@ interface PageTransitionProviderProps {
   children: ReactNode
 }
 
+type Phase = "hidden" | "entering" | "settled"
+
 export function PageTransitionProvider({ children }: PageTransitionProviderProps) {
   const pathname = usePathname()
-  const [isVisible, setIsVisible] = useState(false)
+  const [phase, setPhase] = useState<Phase>("hidden")
 
   useEffect(() => {
-    setIsVisible(false)
-    const timer = setTimeout(() => setIsVisible(true), 50)
-    return () => clearTimeout(timer)
+    setPhase("hidden")
+    const show = setTimeout(() => setPhase("entering"), 50)
+    const settle = setTimeout(() => setPhase("settled"), 400)
+    return () => {
+      clearTimeout(show)
+      clearTimeout(settle)
+    }
   }, [pathname])
 
   return (
     <div
-      className={`transition-all duration-300 ease-out ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-      }`}
+      // Once settled, drop all transform classes: a transformed ancestor becomes
+      // the containing block for position: fixed descendants (lightbox, back button),
+      // anchoring them to the page instead of the viewport.
+      className={
+        phase === "hidden"
+          ? "transition-all duration-300 ease-out opacity-0 translate-y-2"
+          : phase === "entering"
+            ? "transition-all duration-300 ease-out opacity-100 translate-y-0"
+            : undefined
+      }
     >
       {children}
     </div>

@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic"
 import { notFound } from "next/navigation"
 import { getRoomBySlug as getDbRoom } from "@/lib/data/repository"
 import { getRoomBySlug as getLocalRoom } from "@/lib/rooms-data"
+import { normalizeSlugParam } from "@/lib/utils"
 import { RoomDetailClient } from "./room-detail-client"
 
 interface RoomPageProps {
@@ -30,14 +31,14 @@ async function findRoom(slug: string) {
 
 export async function generateMetadata({ params }: RoomPageProps) {
   const { slug } = await params
-  const room = await findRoom(slug)
+  const room = await findRoom(normalizeSlugParam(slug))
   if (!room) return { title: "Room Not Found | MK Interiors" }
   return { title: `${room.title} | MK Interiors`, description: room.description }
 }
 
 export default async function RoomPage({ params }: RoomPageProps) {
   const { slug } = await params
-  const room = await findRoom(slug)
+  const room = await findRoom(normalizeSlugParam(slug))
   if (!room) notFound()
   return <RoomDetailClient room={room} />
 }
