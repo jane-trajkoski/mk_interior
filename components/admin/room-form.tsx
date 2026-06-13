@@ -6,6 +6,7 @@ import { toast } from "sonner"
 import { ImageUpload } from "./image-upload"
 import { ColorSwatchEditor } from "./color-swatch-editor"
 import { Plus, Trash2 } from "lucide-react"
+import { toErrorMessage } from "@/lib/debug" // TEMP: instrumentation
 
 interface RoomImage {
   src: string
@@ -76,10 +77,16 @@ export function RoomForm({ initialData, categories, onSubmit }: RoomFormProps) {
         router.push("/admin/projects")
         router.refresh()
       } else {
-        toast.error("Validation error")
+        // TEMP: surface the real server-side error instead of a generic message
+        const msg =
+          typeof result.error === "string"
+            ? result.error
+            : `Validation error: ${JSON.stringify(result.error)}`
+        toast.error(msg, { duration: 15000 })
       }
-    } catch {
-      toast.error("Something went wrong")
+    } catch (err) {
+      // TEMP: framework-level rejections (origin/CSRF, body size, network) land here
+      toast.error(`Save failed: ${toErrorMessage(err)}`, { duration: 15000 })
     } finally {
       setSaving(false)
     }
