@@ -33,11 +33,11 @@ export function Testimonial({ data }: { data?: TestimonialsContent }) {
             <Quote className="w-12 h-12 mx-auto text-primary-foreground/30" />
           </div>
 
-          <div className="relative min-h-[200px] flex items-center justify-center">
+          <div className="grid min-h-[200px] items-center">
             {items.map((testimonial, index) => (
               <div
                 key={testimonial.id}
-                className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-500 ${
+                className={`col-start-1 row-start-1 flex flex-col items-center justify-center transition-all duration-500 ${
                   index === currentIndex ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
                 }`}
               >

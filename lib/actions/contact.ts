@@ -5,8 +5,6 @@ import { contactSubmissions } from "@/lib/db/schema"
 import { contactFormSchema } from "@/lib/data/schemas"
 import { Resend } from "resend"
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 export async function submitContactForm(formData: unknown) {
   const parsed = contactFormSchema.safeParse(formData)
   if (!parsed.success) {
@@ -28,6 +26,7 @@ export async function submitContactForm(formData: unknown) {
   const notifyEmail = process.env.NOTIFY_EMAIL
   if (notifyEmail && process.env.RESEND_API_KEY) {
     try {
+      const resend = new Resend(process.env.RESEND_API_KEY)
       await resend.emails.send({
         from: "MK Interiors <onboarding@resend.dev>",
         to: notifyEmail,

@@ -58,19 +58,19 @@ export function Header({ logoLight, logoDark }: { logoLight?: string; logoDark?:
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-10">
             <Link
-              href="#projects"
+              href="/#projects"
               className={`relative text-sm tracking-wide transition-colors duration-300 hover-underline py-1 ${mutedTextColorClass} hover:${textColorClass}`}
             >
               Projects
             </Link>
             <Link
-              href="#services"
+              href="/#services"
               className={`relative text-sm tracking-wide transition-colors duration-300 hover-underline py-1 ${mutedTextColorClass} hover:${textColorClass}`}
             >
               Services
             </Link>
             <Link
-              href="#process"
+              href="/#process"
               className={`relative text-sm tracking-wide transition-colors duration-300 hover-underline py-1 ${mutedTextColorClass} hover:${textColorClass}`}
             >
               Process
@@ -82,7 +82,7 @@ export function Header({ logoLight, logoDark }: { logoLight?: string; logoDark?:
               About
             </Link>
             <Link
-              href="#contact"
+              href="/#contact"
               className={`relative text-sm tracking-wide transition-colors duration-300 hover-underline py-1 ${mutedTextColorClass} hover:${textColorClass}`}
             >
               Contact
@@ -116,7 +116,7 @@ export function Header({ logoLight, logoDark }: { logoLight?: string; logoDark?:
 
             {/* CTA Button - Desktop */}
             <Link
-              href="#contact"
+              href="/#contact"
               className={`hidden md:inline-flex px-5 py-2.5 text-sm tracking-wide rounded-md transition-all duration-300 hover:scale-[1.02] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                 isScrolled
                   ? "bg-primary text-primary-foreground hover:bg-primary/90"
@@ -158,21 +158,21 @@ export function Header({ logoLight, logoDark }: { logoLight?: string; logoDark?:
         >
           <div className="flex flex-col gap-6 pt-4">
             <Link
-              href="#projects"
+              href="/#projects"
               onClick={() => setIsMenuOpen(false)}
               className={`text-lg transition-colors ${isScrolled ? "text-foreground hover:text-primary" : "text-charcoal hover:text-charcoal/70 dark:text-cream dark:hover:text-cream/70"}`}
             >
               Projects
             </Link>
             <Link
-              href="#services"
+              href="/#services"
               onClick={() => setIsMenuOpen(false)}
               className={`text-lg transition-colors ${isScrolled ? "text-foreground hover:text-primary" : "text-charcoal hover:text-charcoal/70 dark:text-cream dark:hover:text-cream/70"}`}
             >
               Services
             </Link>
             <Link
-              href="#process"
+              href="/#process"
               onClick={() => setIsMenuOpen(false)}
               className={`text-lg transition-colors ${isScrolled ? "text-foreground hover:text-primary" : "text-charcoal hover:text-charcoal/70 dark:text-cream dark:hover:text-cream/70"}`}
             >
@@ -186,14 +186,14 @@ export function Header({ logoLight, logoDark }: { logoLight?: string; logoDark?:
               About
             </Link>
             <Link
-              href="#contact"
+              href="/#contact"
               onClick={() => setIsMenuOpen(false)}
               className={`text-lg transition-colors ${isScrolled ? "text-foreground hover:text-primary" : "text-charcoal hover:text-charcoal/70 dark:text-cream dark:hover:text-cream/70"}`}
             >
               Contact
             </Link>
             <Link
-              href="#contact"
+              href="/#contact"
               onClick={() => setIsMenuOpen(false)}
               className={`inline-flex w-fit px-5 py-2.5 text-sm tracking-wide rounded-md mt-2 ${
                 isScrolled ? "bg-primary text-primary-foreground" : "bg-charcoal text-cream dark:bg-cream dark:text-charcoal"

@@ -66,7 +66,7 @@ export function Hero({ data }: { data?: HeroContent }) {
           style={{ transitionDelay: "0.8s" }}
         >
           <Link
-            href="#contact"
+            href="/#contact"
             className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full border border-foreground/20 bg-background/35 px-5 py-3 text-[11px] tracking-[0.3em] uppercase font-medium text-foreground backdrop-blur-sm transition-all duration-500 hover:-translate-y-0.5 hover:border-foreground hover:shadow-lg"
           >
             <span className="absolute inset-0 translate-y-full bg-foreground transition-transform duration-500 ease-out group-hover:translate-y-0" />
