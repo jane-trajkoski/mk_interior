@@ -110,27 +110,6 @@ export function AboutPageClient({ data, socialLinks, logoLight, logoDark }: Abou
             </div>
           </div>
         </section>
-
-        <section className="py-16 px-6 lg:px-12 bg-secondary/30">
-          <div className="max-w-xl mx-auto text-center">
-            <div className={`mb-8 transition-all duration-600 ${isInView ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
-              <img src={logoLight ?? "/logo-black.png"} alt="MK Interiors" className="h-20 w-auto mx-auto block dark:hidden" />
-              <img src={logoDark ?? "/logo-color.png"} alt="MK Interiors" className="h-20 w-auto mx-auto hidden dark:block" />
-            </div>
-
-            <div className="flex justify-center gap-4">
-              <a href={links.instagram} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-all duration-300" aria-label="Instagram">
-                <Instagram className="w-4 h-4" />
-              </a>
-              <a href={links.facebook} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-all duration-300" aria-label="Facebook">
-                <Facebook className="w-4 h-4" />
-              </a>
-              <a href={links.linkedin} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-all duration-300" aria-label="LinkedIn">
-                <Linkedin className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-        </section>
       </main>
       <Footer email={undefined} socialLinks={socialLinks} logoLight={logoLight} logoDark={logoDark} />
     </>
